@@ -12,7 +12,8 @@
     <!-- 덕담카드 뽑기 화면 -->
     <div v-if="status === 'card'" class="card-pick-container">
       <h2 class="fade-in-element">올해를 빛낼 덕담 이모티콘을 뽑아보세요.<br>행운이 함께하길 빌어요!</h2>
-git        <!-- 카드 7개를 반복 렌더링 -->
+      <div class="card-container fade-in-element">
+        <!-- 카드 7개를 반복 렌더링 -->
         <div
             class="start-card-item"
             v-for="(card, index) in 7"
