@@ -1,18 +1,3 @@
-<script setup>
-import {useRouter, useRoute} from 'vue-router';
-
-const emojis = ['cloud', 'fire', 'heart', 'leaf', 'palette', 'rock', 'snowflake', 'sparkle'];
-const router = useRouter();
-const route = useRoute();
-
-const selectEmoji = (emoji) => {
-  router.push({
-    name: 'result',
-    params: {selectedEmoji: emoji, userName: route.params.userName},
-  });
-};
-</script>
-
 <template>
   <div class="emoji-selection">
     <h2>{{ route.params.userName }}님을 이모지로 표현한다면?</h2>
@@ -28,6 +13,21 @@ const selectEmoji = (emoji) => {
     </div>
   </div>
 </template>
+
+<script setup>
+import {useRouter, useRoute} from 'vue-router';
+
+const emojis = ['cloud', 'fire', 'heart', 'leaf', 'palette', 'rock', 'snowflake', 'sparkle'];
+const router = useRouter();
+const route = useRoute();
+
+const selectEmoji = (emoji) => {
+  router.push({
+    name: 'result',
+    params: {selectedEmoji: emoji, userName: route.params.userName},
+  });
+};
+</script>
 
 <style scoped>
 .emoji-selection {

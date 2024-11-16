@@ -7,7 +7,11 @@ const userName = route.params.userName;
 const selectedEmoji = route.params.selectedEmoji;
 
 const saveImage = () => {
-  // 이미지 저장 로직 추가 가능
+  const imageUrl = `/cards/${selectedEmoji}.png`;
+  const link = document.createElement('a');
+  link.href = imageUrl;
+  link.download = `${userName}_encouragement_card.png`; // 파일 이름 설정
+  link.click();
 };
 
 const startOver = () => {
