@@ -14,17 +14,21 @@
       <h2 class="fade-in-element">올해를 빛낼 덕담 이모티콘을 뽑아보세요.<br>행운이 함께하길 빌어요!</h2>
       <div class="card-container fade-in-element">
         <!-- 카드 7개를 반복 렌더링 -->
-        <div
-            class="start-card-item"
+        <img
             v-for="(card, index) in 7"
             :key="index"
+            :src="hoveredIndex === index ? getHoverImage(index) : getDefaultImage(index)"
+            alt="Card Icon"
+            class="start-card-item"
+            @mouseover="onHover(index)"
+            @mouseleave="onLeave"
             @click="showSelectedCard(index + 1)"
-        ></div>
+        />
       </div>
     </div>
 
     <!-- 카드 선택 후 -->
-    <div v-if="status === 'pick' || status === 'final'" class="selected-card-overlay">
+    <div v-if="status === 'pick' || status === 'final'" class="selected-card-overlay" @click.self="resetToCardSelection">
       <img v-if="status === 'pick'" :src="currentCardImage" alt="Card Image" class="selected-card-image"
            style="cursor: pointer"
            @click="selectFinalCard"/>
@@ -35,10 +39,10 @@
         </div>
         <div class="final-card-container fade-in-element" v-if="status ==='final'">
           <img :src="finalCardImage01" alt="Card Image"
-               class="selected-card-image duplicate-image"
+               class="selected-final-card-image duplicate-image"
                style="cursor: pointer"/>
           <img :src="finalCardImage02" alt="Card Image"
-               class="selected-card-image duplicate-image"
+               class="selected-final-card-image duplicate-image"
                style="cursor: pointer"/>
         </div>
         <!-- 다운로드 버튼 컨테이너 -->
@@ -53,6 +57,7 @@
 </template>
 
 <script setup>
+/* eslint-disable no-unused-vars */
 import {onMounted, onUnmounted, ref} from "vue";
 
 const status = ref("intro");
@@ -61,6 +66,7 @@ const finalCardImage01 = ref(""); // 현재 표시 중인 카드 이미지 경�
 const finalCardImage02 = ref(""); // 최종 화면에 표시할 두 개의 카드 이미지 경로
 const currentFinalTitle = ref("")
 const currentFinalContent = ref("")
+const hoveredIndex = ref(null); // 현재 호버 중인 카드의 인덱스
 
 // 1. 'Intro'에서 '카드 선택'으로 이동
 const navigateToCardSelection = () => {
@@ -184,6 +190,32 @@ const handleScroll = () => {
   }
 };
 
+// 기본 이미지 경로 가져오기
+const getDefaultImage = (index) => {
+  return require(`@/assets/icon0${index + 1}.png`);
+};
+
+// 호버 이미지 경로 가져오기
+const getHoverImage = (index) => {
+  return require(`@/assets/hover-icon0${index + 1}.png`);
+};
+
+// 마우스를 올렸을 때 실행
+const onHover = (index) => {
+  hoveredIndex.value = index; // 호버 중인 카드의 인덱스를 저장
+};
+
+// 마우스를 떠났을 때 실행
+const onLeave = () => {
+  hoveredIndex.value = null; // 호버 상태 초기화
+};
+
+// 카드 선택 화면으로 돌아가는 메서드
+const resetToCardSelection = () => {
+  navigateToCardSelection()
+  status.value = "intro"; // 상태를 카드 선택으로 변경
+};
+
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);
 });
@@ -192,8 +224,8 @@ onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
 
-const finalTitleArr = ["로그인 프리 패스 카드를 뽑으셨네요!", "예시2"]
-const finalContentArr = ["새해 복 많이 받으시고, 어떤 사이트든<br> 한 번에 로그인 성공하는 한 해가 되기를 기원합니다.", "예시2"]
+const finalTitleArr = ["로그인 프리 패스 카드를 뽑으셨네요!", "로그인 프리 패스 카드를 뽑으셨네요!", "로그인 프리 패스 카드를 뽑으셨네요!", "로그인 프리 패스 카드를 뽑으셨네요!", "로그인 프리 패스 카드를 뽑으셨네요!", "로그인 프리 패스 카드를 뽑으셨네요!", "로그인 프리 패스 카드를 뽑으셨네요!"]
+const finalContentArr = ["새해 복 많이 받으시고, 어떤 사이트든<br> 한 번에 로그인 성공하는 한 해가 되기를 기원합니다.", "새해 복 많이 받으시고, 어떤 사이트든<br> 한 번에 로그인 성공하는 한 해가 되기를 기원합니다.", "새해 복 많이 받으시고, 어떤 사이트든<br> 한 번에 로그인 성공하는 한 해가 되기를 기원합니다.", "새해 복 많이 받으시고, 어떤 사이트든<br> 한 번에 로그인 성공하는 한 해가 되기를 기원합니다.", "새해 복 많이 받으시고, 어떤 사이트든<br> 한 번에 로그인 성공하는 한 해가 되기를 기원합니다.", "새해 복 많이 받으시고, 어떤 사이트든<br> 한 번에 로그인 성공하는 한 해가 되기를 기원합니다.", "새해 복 많이 받으시고, 어떤 사이트든<br> 한 번에 로그인 성공하는 한 해가 되기를 기원합니다."]
 
 </script>
 
@@ -321,17 +353,16 @@ const finalContentArr = ["새해 복 많이 받으시고, 어떤 사이트든<br
 .card-container {
   /* 카드 리스트 컨테이너 */
   display: flex;
-  gap: 30px;
+  gap: 10px;
   margin-top: 5vh;
 }
 
 .start-card-item {
   /* 개별 카드 스타일 */
-  width: 170px;
+  width: calc(100% / 7 - 10px);
   height: 202px;
-  background-color: #2E69BA;
+  object-fit: contain; /* 이미지 비율 유지 및 카드 크기에 맞춤 */
   border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
   cursor: pointer;
 }
@@ -339,8 +370,6 @@ const finalContentArr = ["새해 복 많이 받으시고, 어떤 사이트든<br
 .start-card-item:hover {
   /* 카드 호버 스타일 */
   transform: scale(1.05);
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.7);
 }
 
 /* 공통 애니메이션 스타일 */
@@ -362,8 +391,6 @@ const finalContentArr = ["새해 복 많이 받으시고, 어떤 사이트든<br
 .selected-card-overlay {
   /* 카드 선택 후 오버레이 */
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.7);
@@ -383,6 +410,22 @@ const finalContentArr = ["새해 복 많이 받으시고, 어떤 사이트든<br
 }
 
 .selected-card-image.fade-in-card {
+  /* 카드 이미지 표시 애니메이션 */
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.selected-final-card-image {
+  /* 카드 이미지 기본 스타일 */
+  opacity: 0;
+  max-width: 280px; /* 최대 가로 크기 */
+  transform: scale(1.1);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  margin: 30px; /* 좌우 간격 추가 */
+  padding: 0; /* 간격 초기화 */
+}
+
+.selected-final-card-image.fade-in-card {
   /* 카드 이미지 표시 애니메이션 */
   opacity: 1;
   transform: scale(1.2);
@@ -434,14 +477,15 @@ const finalContentArr = ["새해 복 많이 받으시고, 어떤 사이트든<br
 .final-card-container {
   display: flex;
   justify-content: center; /* 카드들을 가로로 배치 */
-  margin: 0; /* 간격 초기화 */
   padding: 0; /* 간격 초기화 */
+  margin-top: 5vh;
+  gap: 2vw;
 }
 
 .download-button-container {
   display: flex;
   justify-content: center; /* 가로 가운데 정렬 */
-  margin-top: 20px;
+  margin-top: 10vh
 }
 
 .download-button {
