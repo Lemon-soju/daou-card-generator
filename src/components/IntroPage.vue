@@ -421,7 +421,6 @@ const finalContentArr = ["새해 복 많이 받으시고, 어떤 사이트든<br
   max-width: 280px; /* 최대 가로 크기 */
   transform: scale(1.1);
   transition: opacity 0.6s ease, transform 0.6s ease;
-  margin: 30px; /* 좌우 간격 추가 */
   padding: 0; /* 간격 초기화 */
 }
 
@@ -479,7 +478,7 @@ const finalContentArr = ["새해 복 많이 받으시고, 어떤 사이트든<br
   justify-content: center; /* 카드들을 가로로 배치 */
   padding: 0; /* 간격 초기화 */
   margin-top: 5vh;
-  gap: 2vw;
+  gap: 3vw;
 }
 
 .download-button-container {
