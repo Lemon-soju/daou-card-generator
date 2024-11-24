@@ -6,7 +6,16 @@
       <div class="main02-title">With Daouoffice</div>
       <div class="subtitle fade-in-element">새해 덕담 한 장과 함께 힘찬 한 해 시작 어떠세요?</div>
       <div class="content fade-in-element">올해도 함께라서 더욱 행복한 우리,<br> 다우오피스에서 희망차고 빛나는 한 해가 되길!</div>
-      <button @click="navigateToCardSelection" class="start-button fade-in-element">새해 덕담카드 뽑으러 가기</button>
+      <div class="button-container">
+        <div class="button-wrapper fade-in-element" @click="navigateToCardSelection">
+          <!-- 기본 이미지 -->
+          <img src="../assets/start-button.png" alt="Start Button"
+               class="start-button default"/>
+          <!-- 호버 시 표시할 이미지 -->
+          <img src="../assets/start-button-hover.png" alt="Start Button"
+               class="start-button hover"/>
+        </div>
+      </div>
     </div>
 
     <!-- 덕담카드 뽑기 화면 -->
@@ -28,7 +37,8 @@
     </div>
 
     <!-- 카드 선택 후 -->
-    <div v-if="status === 'pick' || status === 'final'" class="selected-card-overlay" @click.self="resetToCardSelection">
+    <div v-if="status === 'pick' || status === 'final'" class="selected-card-overlay"
+         @click.self="resetToCardSelection">
       <img v-if="status === 'pick'" :src="currentCardImage" alt="Card Image" class="selected-card-image"
            style="cursor: pointer"
            @click="selectFinalCard"/>
@@ -47,9 +57,8 @@
         </div>
         <!-- 다운로드 버튼 컨테이너 -->
         <div class="download-button-container fade-in-element">
-          <button class="download-button" @click="downloadFinalCards">
-            이미지 다운로드
-          </button>
+          <img src="../assets/download-button.png" alt="Download Button" @click="downloadFinalCards"
+               class="download-button"/>
         </div>
       </div>
     </div>
@@ -148,7 +157,7 @@ onMounted(() => {
 const handleScroll = () => {
   const subtitle = document.querySelector(".subtitle");
   const content = document.querySelector(".content");
-  const button = document.querySelector(".start-button");
+  const button = document.querySelector(".button-wrapper");
 
   const windowHeight = window.innerHeight;
 
@@ -224,8 +233,26 @@ onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
 
-const finalTitleArr = ["로그인 프리 패스 카드를 뽑으셨네요!", "로그인 프리 패스 카드를 뽑으셨네요!", "로그인 프리 패스 카드를 뽑으셨네요!", "로그인 프리 패스 카드를 뽑으셨네요!", "로그인 프리 패스 카드를 뽑으셨네요!", "로그인 프리 패스 카드를 뽑으셨네요!", "로그인 프리 패스 카드를 뽑으셨네요!"]
-const finalContentArr = ["새해 복 많이 받으시고, 어떤 사이트든<br> 한 번에 로그인 성공하는 한 해가 되기를 기원합니다.", "새해 복 많이 받으시고, 어떤 사이트든<br> 한 번에 로그인 성공하는 한 해가 되기를 기원합니다.", "새해 복 많이 받으시고, 어떤 사이트든<br> 한 번에 로그인 성공하는 한 해가 되기를 기원합니다.", "새해 복 많이 받으시고, 어떤 사이트든<br> 한 번에 로그인 성공하는 한 해가 되기를 기원합니다.", "새해 복 많이 받으시고, 어떤 사이트든<br> 한 번에 로그인 성공하는 한 해가 되기를 기원합니다.", "새해 복 많이 받으시고, 어떤 사이트든<br> 한 번에 로그인 성공하는 한 해가 되기를 기원합니다.", "새해 복 많이 받으시고, 어떤 사이트든<br> 한 번에 로그인 성공하는 한 해가 되기를 기원합니다."]
+const finalTitleArr = [
+  "로그인 프리 패스 카드를 뽑으셨네요!"
+  , "좋은 소식 카드를 뽑으셨네요!"
+  , "제로 메일박스 카드를 뽑으셨네요!"
+  , "버그 프리 카드를 뽑으셨네요!"
+  , "원클릭 솔루션 카드를 뽑으셨네요!"
+  , "빠른 문서 찾기 카드를 뽑으셨네요!"
+  , "서버 안정 카드를 뽑으셨네요!"
+]
+
+const finalContentArr = [
+  "새해 복 많이 받으시고, 어떤 사이트든<br> 한 번에 로그인 성공하는 한 해가 되기를 기원합니다."
+  , "새해 복 많이 받으시고, 모든 알림이<br> ‘좋은 소식’으로만 울리는 한 해가 되기를 기원합니다."
+  , "새해 복 많이 받으시고, 이메일 수신함에<br> 요청 메일이 적게 쌓이는 한 해가 되기를 기원합니다."
+  , "새해 복 많이 받으시고, 어떤 코드를 작성해도<br> 버그란 없는 한 해가 되기를 기원합니다."
+  , "새해 복 많이 받으시고, 클릭 한번에<br> 문제가 전부 해결되는 한 해가 되기를 기원합니다."
+  , "새해 복 많이 받으시고, 필요한 문서를<br> 3분안에 찾아내는 한 해가 되기를 기원합니다."
+  , "새해 복 많이 받으시고, 언제나 서버는<br> 안정적이고, 마음은 유연한 한 해가 되기를 기원합니다."
+]
+
 
 </script>
 
@@ -283,45 +310,66 @@ const finalContentArr = ["새해 복 많이 받으시고, 어떤 사이트든<br
 
 .subtitle {
   /* 소제목 스타일 */
-  font-size: clamp(18px, 3vw, 36px);
+  font-size: 1.5vw; /* 글꼴 크기: 화면 너비 기준 */
   font-weight: 800;
   text-align: center;
-  margin-top: clamp(10px, 2vw, 20px);
+  margin-top: 1vh; /* 여백: 화면 높이 기준 */
 }
 
 .content {
   /* 본문 텍스트 스타일 */
-  font-size: clamp(16px, 2.5vw, 24px);
+  font-size: 1.0vw;
   font-weight: 400;
   text-align: center;
-  margin-top: clamp(5px, 1.5vw, 10px);
+  margin-top: 3vh
 }
 
-.start-button {
-  /* 시작 버튼 스타일 */
-  position: fixed;
-  top: 80%;
-  font-family: 'Pretendard', sans-serif;
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 48px;
-  letter-spacing: -0.02em;
-  text-align: center;
-  color: #007BFF;
-  background-color: white;
-  padding: 10px 30px;
-  border: 2px solid #007BFF;
-  border-radius: 30px;
-  cursor: pointer;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  transition: all 0.6s ease;
+.button-container {
+  position: absolute;
+  bottom: -35%; /* 화면 아래쪽에 위치 */
+  left: 50%;
+  transform: translateX(-50%); /* 중앙 정렬 */
+  text-align: center; /* 텍스트 중앙 정렬 */
 }
 
-.start-button:hover {
-  /* 버튼 호버 스타일 */
-  background-color: #007BFF;
-  color: white;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+/* 버튼 컨테이너 */
+.button-wrapper {
+  position: relative; /* 자식 요소의 기준 */
+  width: 24vw; /* 크기 고정 */
+  height: auto; /* 비율 유지 */
+  display: inline-block;
+  cursor: pointer; /* 클릭 가능한 커서 */
+}
+
+/* 기본 이미지 */
+.start-button.default {
+  position: absolute; /* 겹치기 위해 절대 위치 */
+  top: 0;
+  left: 0;
+  width: 100%; /* 부모에 맞게 크기 조정 */
+  height: auto;
+  opacity: 1; /* 기본적으로 보이기 */
+  transition: opacity 0.6s ease; /* 부드러운 전환 효과 */
+}
+
+/* 호버 이미지 */
+.start-button.hover {
+  position: absolute; /* 기본 이미지 위에 겹침 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  opacity: 0; /* 기본적으로 숨김 */
+  transition: opacity 0.6s ease; /* 부드러운 전환 효과 */
+}
+
+/* 호버 상태에서 이미지 전환 */
+.button-wrapper:hover .default {
+  opacity: 0; /* 기본 이미지 숨김 */
+}
+
+.button-wrapper:hover .hover {
+  opacity: 1; /* 호버 이미지 표시 */
 }
 
 /* 카드 선택 화면 스타일 */
@@ -363,7 +411,7 @@ const finalContentArr = ["새해 복 많이 받으시고, 어떤 사이트든<br
   height: 202px;
   object-fit: contain; /* 이미지 비율 유지 및 카드 크기에 맞춤 */
   border-radius: 8px;
-  transition: transform 0.3s ease;
+  transition: transform 0.6s ease;
   cursor: pointer;
 }
 
@@ -403,6 +451,7 @@ const finalContentArr = ["새해 복 많이 받으시고, 어떤 사이트든<br
 .selected-card-image {
   /* 카드 이미지 기본 스타일 */
   opacity: 0;
+  max-width: 14vw; /* 최대 가로 크기 */
   transform: scale(1.1);
   transition: opacity 0.6s ease, transform 0.6s ease;
   margin: 0; /* 간격 초기화 */
@@ -418,7 +467,7 @@ const finalContentArr = ["새해 복 많이 받으시고, 어떤 사이트든<br
 .selected-final-card-image {
   /* 카드 이미지 기본 스타일 */
   opacity: 0;
-  max-width: 280px; /* 최대 가로 크기 */
+  max-width: 13vw; /* 최대 가로 크기 */
   transform: scale(1.1);
   transition: opacity 0.6s ease, transform 0.6s ease;
   padding: 0; /* 간격 초기화 */
@@ -441,18 +490,14 @@ const finalContentArr = ["새해 복 많이 받으시고, 어떤 사이트든<br
 .final-text {
   text-align: center;
   color: white;
-  margin-bottom: 20px; /* 제목과 카드 사이의 간격 */
-}
-
-.final-text p {
-  font-size: 18px;
-  margin: 0;
+  margin-top: 10vh;
+  margin-bottom: 5vh; /* 제목과 카드 사이의 간격 */
 }
 
 /* 최종 제목 스타일 */
 .final-title {
   font-family: 'Pretendard', sans-serif;
-  font-size: 36px;
+  font-size: 1.6vw;
   font-weight: 700;
   line-height: 36px;
   letter-spacing: -0.02em;
@@ -464,7 +509,7 @@ const finalContentArr = ["새해 복 많이 받으시고, 어떤 사이트든<br
 
 .final-content {
   font-family: 'Pretendard', sans-serif;
-  font-size: 24px;
+  font-size: 1.05vw;
   font-weight: 400;
   line-height: 34px;
   letter-spacing: -0.03em;
@@ -478,34 +523,23 @@ const finalContentArr = ["새해 복 많이 받으시고, 어떤 사이트든<br
   justify-content: center; /* 카드들을 가로로 배치 */
   padding: 0; /* 간격 초기화 */
   margin-top: 5vh;
-  gap: 3vw;
+  gap: 2.5vw;
 }
 
 .download-button-container {
   display: flex;
   justify-content: center; /* 가로 가운데 정렬 */
-  margin-top: 10vh
+  margin-top: 7vh
 }
 
 .download-button {
-  padding: 10px 30px;
-  font-family: "Pretendard", sans-serif;
-  font-size: 24px;
-  font-weight: 700;
-  color: #007BFF;
-  background-color: white;
-  border: 2px solid #007BFF;
-  border-radius: 30px;
   cursor: pointer;
   text-align: center;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   transition: all 0.6s ease;
 }
 
 .download-button:hover {
-  background-color: #007BFF;
-  color: white;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05); /* 크기 확대 */
 }
 
 </style>
