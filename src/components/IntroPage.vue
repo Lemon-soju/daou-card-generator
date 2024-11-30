@@ -43,7 +43,7 @@
            style="cursor: pointer"
            @click="selectFinalCard"/>
       <div v-if="status === 'final'">
-        <div class="final-text fade-in-element">
+        <div class="final-text-container fade-in-element">
           <div class="final-title">{{ currentFinalTitle }}</div>
           <div class="final-content" v-html="currentFinalContent"></div>
         </div>
@@ -139,7 +139,7 @@ const downloadFinalCards = () => {
   images.forEach((imgSrc, index) => {
     const link = document.createElement("a");
     link.href = imgSrc;
-    link.download = `final-card-${index + 1}.png`; // 다운로드 파일 이름 설정
+    link.download = `다우기술덕담카드-${index + 1}.png`; // 다운로드 파일 이름 설정
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -161,12 +161,15 @@ const handleScroll = () => {
 
   const windowHeight = window.innerHeight;
 
+  // px 대신 vh 사용
+  const offset = windowHeight * 0.1; // 10vh (100vh의 10%)
+
   // 요소 존재 시 위치에 따라 visible 클래스 추가
   if (subtitle) {
     const subtitlePosition = subtitle.getBoundingClientRect().top;
     if (
-        subtitlePosition < windowHeight - 100 &&
-        window.scrollY < document.body.scrollHeight - windowHeight - 100
+        subtitlePosition < windowHeight - offset &&
+        window.scrollY < document.body.scrollHeight - windowHeight - offset
     ) {
       subtitle.classList.add("visible");
     } else {
@@ -177,8 +180,8 @@ const handleScroll = () => {
   if (content) {
     const contentPosition = content.getBoundingClientRect().top;
     if (
-        contentPosition < windowHeight - 100 &&
-        window.scrollY < document.body.scrollHeight - windowHeight - 100
+        contentPosition < windowHeight - offset &&
+        window.scrollY < document.body.scrollHeight - windowHeight - offset
     ) {
       content.classList.add("visible");
     } else {
@@ -189,8 +192,8 @@ const handleScroll = () => {
   if (button) {
     const buttonPosition = button.getBoundingClientRect().top;
     if (
-        buttonPosition < windowHeight - 100 &&
-        window.scrollY < document.body.scrollHeight - windowHeight - 100
+        buttonPosition < windowHeight - offset &&
+        window.scrollY < document.body.scrollHeight - windowHeight - offset
     ) {
       button.classList.add("visible");
     } else {
@@ -260,16 +263,12 @@ const finalContentArr = [
 /* Intro 화면 스타일 */
 .intro {
   /* Intro 화면 높이 및 배경 이미지 설정 */
-  height: 200vh;
+  height: 100vw;
   background-image: url('@/assets/background-image3.png');
   background-position: bottom;
   background-size: cover;
-  background-attachment: scroll;
   background-repeat: no-repeat;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
 }
 
 .container {
@@ -280,19 +279,20 @@ const finalContentArr = [
   flex-direction: column;
   align-items: center;
   width: 100%;
+  height: 100%;
 }
 
 .main-title {
   /* 제목 스타일 */
   font-family: 'Poppins', sans-serif;
   font-weight: 900;
-  white-space: nowrap;
   text-align: center;
   width: 100%;
-  margin-top: 0;
-  font-size: clamp(5vw, 10vw, 15vw);
+  margin-top: 1vh;
+  font-size: 10vw;
   position: relative;
   z-index: 1;
+  line-height: 1.4; /* 줄 간격: 글꼴 크기의 1.4배 */
 }
 
 .main02-title {
@@ -305,38 +305,41 @@ const finalContentArr = [
   font-size: clamp(4vw, 11.2vw, 12vw);
   position: relative;
   z-index: 2;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 0.2vw 0.2vw 0.4vw rgba(0, 0, 0, 0.5);
+  line-height: 1.4; /* 줄 간격: 글꼴 크기의 1.4배 */
 }
 
+/* 소제목 스타일 */
 .subtitle {
-  /* 소제목 스타일 */
+  position: absolute; /* 겹치기 위해 절대 위치 */
+  bottom: 51%; /* 화면 아래쪽에 위치 */
   font-size: 1.5vw; /* 글꼴 크기: 화면 너비 기준 */
   font-weight: 800;
   text-align: center;
-  margin-top: 1vh; /* 여백: 화면 높이 기준 */
+  margin-top: 2vh; /* 여백: 화면 높이 기준 */
+  line-height: 1.4; /* 줄 간격: 글꼴 크기의 1.4배 */
 }
 
+/* 본문 텍스트 스타일 */
 .content {
-  /* 본문 텍스트 스타일 */
+  position: absolute; /* 겹치기 위해 절대 위치 */
+  bottom: 42%; /* 화면 아래쪽에 위치 */
   font-size: 1.0vw;
   font-weight: 400;
   text-align: center;
-  margin-top: 3vh
+  line-height: 1.4; /* 줄 간격: 글꼴 크기의 1.4배 */
 }
 
 .button-container {
   position: absolute;
-  bottom: -35%; /* 화면 아래쪽에 위치 */
+  bottom: 18%; /* 화면 아래쪽에 위치 */
   left: 50%;
   transform: translateX(-50%); /* 중앙 정렬 */
-  text-align: center; /* 텍스트 중앙 정렬 */
 }
 
 /* 버튼 컨테이너 */
 .button-wrapper {
-  position: relative; /* 자식 요소의 기준 */
-  width: 24vw; /* 크기 고정 */
-  height: auto; /* 비율 유지 */
+  width: 22vw; /* 크기 고정 */
   display: inline-block;
   cursor: pointer; /* 클릭 가능한 커서 */
 }
@@ -347,7 +350,7 @@ const finalContentArr = [
   top: 0;
   left: 0;
   width: 100%; /* 부모에 맞게 크기 조정 */
-  height: auto;
+  height: 15vh;
   opacity: 1; /* 기본적으로 보이기 */
   transition: opacity 0.6s ease; /* 부드러운 전환 효과 */
 }
@@ -358,7 +361,7 @@ const finalContentArr = [
   top: 0;
   left: 0;
   width: 100%;
-  height: auto;
+  height: 15vh;
   opacity: 0; /* 기본적으로 숨김 */
   transition: opacity 0.6s ease; /* 부드러운 전환 효과 */
 }
@@ -388,29 +391,25 @@ const finalContentArr = [
 .card-pick-container h2 {
   /* 카드 선택 화면 제목 */
   font-family: 'Pretendard', sans-serif;
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 54px;
+  font-size: 1.6vw;
+  font-weight: 600;
   letter-spacing: -0.02em;
   text-align: center;
-  text-underline-position: from-font;
-  text-decoration-skip-ink: none;
-  margin-bottom: 20px;
+  margin-bottom: 2vh;
 }
 
 .card-container {
   /* 카드 리스트 컨테이너 */
   display: flex;
-  gap: 10px;
+  gap: 0.2vw;
   margin-top: 5vh;
 }
 
 .start-card-item {
   /* 개별 카드 스타일 */
-  width: calc(100% / 7 - 10px);
-  height: 202px;
+  width: 10vw;
+  height: 23vh;
   object-fit: contain; /* 이미지 비율 유지 및 카드 크기에 맞춤 */
-  border-radius: 8px;
   transition: transform 0.6s ease;
   cursor: pointer;
 }
@@ -439,11 +438,10 @@ const finalContentArr = [
 .selected-card-overlay {
   /* 카드 선택 후 오버레이 */
   position: fixed;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.7);
   display: flex;
-  align-items: center;
   justify-content: center;
   z-index: 10;
 }
@@ -451,11 +449,11 @@ const finalContentArr = [
 .selected-card-image {
   /* 카드 이미지 기본 스타일 */
   opacity: 0;
-  max-width: 14vw; /* 최대 가로 크기 */
+  margin-top: 26vh;
+  width: 16.25vw; /* 최대 가로 크기 */
+  height: 50vh;
   transform: scale(1.1);
   transition: opacity 0.6s ease, transform 0.6s ease;
-  margin: 0; /* 간격 초기화 */
-  padding: 0; /* 간격 초기화 */
 }
 
 .selected-card-image.fade-in-card {
@@ -467,7 +465,8 @@ const finalContentArr = [
 .selected-final-card-image {
   /* 카드 이미지 기본 스타일 */
   opacity: 0;
-  max-width: 13vw; /* 최대 가로 크기 */
+  width: 13vw; /* 최대 가로 크기 */
+  height: 40vh;
   transform: scale(1.1);
   transition: opacity 0.6s ease, transform 0.6s ease;
   padding: 0; /* 간격 초기화 */
@@ -487,11 +486,10 @@ const finalContentArr = [
   border: none !important; /* 기본 테두리 제거 */
 }
 
-.final-text {
+.final-text-container {
+  margin-top: 17vh;
   text-align: center;
   color: white;
-  margin-top: 10vh;
-  margin-bottom: 5vh; /* 제목과 카드 사이의 간격 */
 }
 
 /* 최종 제목 스타일 */
@@ -499,11 +497,10 @@ const finalContentArr = [
   font-family: 'Pretendard', sans-serif;
   font-size: 1.6vw;
   font-weight: 700;
-  line-height: 36px;
+  line-height: 1.4;
   letter-spacing: -0.02em;
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
-  margin-bottom: 10px; /* 아래 문구와 간격 추가 */
   color: white; /* 글자색 */
 }
 
@@ -511,9 +508,10 @@ const finalContentArr = [
   font-family: 'Pretendard', sans-serif;
   font-size: 1.05vw;
   font-weight: 400;
-  line-height: 34px;
+  line-height: 1.4;
   letter-spacing: -0.03em;
   text-align: center;
+  margin-top: 1vh;
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
 }
@@ -521,20 +519,20 @@ const finalContentArr = [
 .final-card-container {
   display: flex;
   justify-content: center; /* 카드들을 가로로 배치 */
-  padding: 0; /* 간격 초기화 */
   margin-top: 5vh;
   gap: 2.5vw;
 }
 
 .download-button-container {
-  display: flex;
-  justify-content: center; /* 가로 가운데 정렬 */
-  margin-top: 7vh
+  position: absolute;
+  bottom: 4.5%;
+  left: 40%;
 }
 
 .download-button {
+  width: 20vw;
+  height: 15vh;
   cursor: pointer;
-  text-align: center;
   transition: all 0.6s ease;
 }
 
